@@ -3,8 +3,10 @@ package com.dmi.books.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 
 import com.dmi.books.model.Book;
@@ -110,7 +112,17 @@ public class BookDAO {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			obj = (Book) session.createQuery("select id, image, title, author, price from Book").uniqueResult();
+//			obj = (Book) session.createQuery("select id, image, title, author, price from Book where id = :id").setParameter("id", objId).uniqueResult();
+			
+			Query q = session.createQuery("select id as id, image as image, title as title, author as author, price as price from Book where id = :id");
+			q.setParameter("id", objId);
+			q.setResultTransformer(Transformers.aliasToBean(Book.class));
+			
+			obj = (Book) q.uniqueResult();
+			
+			
+			
+			
 		} finally {
 			session.flush();
 			session.close();

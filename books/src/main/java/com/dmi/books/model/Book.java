@@ -71,10 +71,11 @@ public class Book {
 
 	}
 
-	public Book(Long id, String name, String description, BigDecimal price, String category) {
+	public Book(Long id, String image, String title, String author, BigDecimal price ) {
 		this.id = id;
-		this.image = name;
-		this.title = description;
+		this.image = image;
+		this.title = title;
+		this.author = author;
 		this.price = price;
 	}
 
